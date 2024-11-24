@@ -9,6 +9,11 @@ class Recipient(models.Model):
     def __str__(self):
         return self.email
 
+    class Meta:
+        verbose_name = 'Получатель'
+        verbose_name_plural = 'Получатели'
+        ordering = ['email']
+
 
 class Message(models.Model):
     subject = models.CharField(max_length=255)
@@ -16,6 +21,11 @@ class Message(models.Model):
 
     def __str__(self):
         return self.subject
+
+    class Meta:
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'
+        ordering = ['subject']
 
 
 class Mailing(models.Model):
@@ -33,6 +43,10 @@ class Mailing(models.Model):
 
     def __str__(self):
         return f"{self.message.subject} - {self.status}"
+
+    class Meta:
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
 
 
 class SendAttempt(models.Model):

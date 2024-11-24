@@ -11,27 +11,27 @@ from .forms import RecipientForm, MessageForm, MailingForm
 
 class RecipientListView(generic.ListView):
     model = Recipient
-    template_name = 'recipient_list.html'
+    template_name = 'mailing/recipient_list.html'
     context_object_name = 'recipients'
 
 
 class RecipientCreateView(generic.CreateView):
     model = Recipient
     form_class = RecipientForm
-    template_name = 'recipient_form.html'
+    template_name = 'mailing/recipient_form.html'
     success_url = reverse_lazy('mailing:recipient_list')
 
 
 class RecipientUpdateView(generic.UpdateView):
     model = Recipient
     form_class = RecipientForm
-    template_name = 'recipient_form.html'
+    template_name = 'mailing/recipient_form.html'
     success_url = reverse_lazy('mailing:recipient_list')
 
 
 class RecipientDeleteView(generic.DeleteView):
     model = Recipient
-    template_name = 'recipient_confirm_delete.html'
+    template_name = 'mailing/recipient_confirm_delete.html'
     success_url = reverse_lazy('mailing:recipient_list')
 
 
@@ -39,27 +39,27 @@ class RecipientDeleteView(generic.DeleteView):
 
 class MessageListView(generic.ListView):
     model = Message
-    template_name = 'message_list.html'
+    template_name = 'mailing/message_list.html'
     context_object_name = 'messages'
 
 
 class MessageCreateView(generic.CreateView):
     model = Message
     form_class = MessageForm
-    template_name = 'message_form.html'
+    template_name = 'mailing/message_form.html'
     success_url = reverse_lazy('mailing:message_list')
 
 
 class MessageUpdateView(generic.UpdateView):
     model = Message
     form_class = MessageForm
-    template_name = 'message_form.html'
+    template_name = 'mailing/message_form.html'
     success_url = reverse_lazy('mailing:message_list')
 
 
 class MessageDeleteView(generic.DeleteView):
     model = Message
-    template_name = 'message_confirm_delete.html'
+    template_name = 'mailing/message_confirm_delete.html'
     success_url = reverse_lazy('mailing:message_list')
 
 
@@ -67,27 +67,27 @@ class MessageDeleteView(generic.DeleteView):
 
 class MailingListView(generic.ListView):
     model = Mailing
-    template_name = 'mailing_list.html'
+    template_name = 'mailing/mailing_list.html'
     context_object_name = 'mailings'
 
 
 class MailingCreateView(generic.CreateView):
     model = Mailing
     form_class = MailingForm
-    template_name = 'mailing_form.html'
+    template_name = 'mailing/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingUpdateView(generic.UpdateView):
     model = Mailing
     form_class = MailingForm
-    template_name = 'mailing_form.html'
+    template_name = 'mailing/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingDeleteView(generic.DeleteView):
     model = Mailing
-    template_name = 'mailing_confirm_delete.html'
+    template_name = 'mailing/mailing_confirm_delete.html'
     success_url = reverse_lazy('mailing:mailing_list')
 
 
@@ -127,7 +127,7 @@ class SendMailingView(generic.View):
             mailing.first_sent_at = timezone.now()
             mailing.save()
 
-        return render(request, 'mailing_status.html', {'mailing': mailing})
+        return render(request, 'mailing/mailing_status.html', {'mailing': mailing})
 
 
     def get_object(self, mailing_id):
@@ -137,7 +137,7 @@ class SendMailingView(generic.View):
 # Главная страница
 
 class HomeView(generic.TemplateView):
-    template_name = 'home.html'
+    template_name = 'mailing/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
