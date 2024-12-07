@@ -84,6 +84,17 @@ class MailingUpdateView(generic.UpdateView):
     template_name = 'mailing/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing_list')
 
+    def form_valid(self, form):
+        mailing = form.save(commit=False)
+        existing_end_at = self.get_object().end_at
+        new_end_at = form.cleaned_data.get('end_at')
+
+        if existing_end_at != new_end_at:
+            mailing.status = 'Запущена'
+
+        mailing.save()
+        return super().form_valid(form)
+
 
 class MailingDeleteView(generic.DeleteView):
     model = Mailing
@@ -98,13 +109,13 @@ class SendMailingView(generic.View):
         mailing = self.get_object(mailing_id)
         recipients = mailing.recipients.all()
 
-        # Инициация отправки
+        # Инициализация отправки
         for recipient in recipients:
             try:
                 send_mail(
                     mailing.message.subject,
                     mailing.message.body,
-                    'a.s.pavushenko@gmail.com',
+                    'taborr@yandex.ru',
                     [recipient.email],
                     fail_silently=False,
                 )
@@ -127,6 +138,11 @@ class SendMailingView(generic.View):
             mailing.first_sent_at = timezone.now()
             mailing.save()
 
+        # Проверка, закончилось ли время рассылки
+        if mailing.end_at and timezone.now() > mailing.end_at:
+            mailing.status = 'Завершена'
+            mailing.save()
+
         return render(request, 'mailing/mailing_status.html', {'mailing': mailing})
 
 
@@ -134,7 +150,7 @@ class SendMailingView(generic.View):
         return Mailing.objects.get(id=mailing_id)
 
 
-# Главная страница
+# Статистика для главной страницы
 
 class HomeView(generic.TemplateView):
     template_name = 'mailing/home.html'

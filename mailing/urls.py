@@ -1,4 +1,5 @@
 from django.urls import path
+from mailing.apps import MailingConfig
 from .views import (
     HomeView, SendMailingView,
     RecipientListView, RecipientCreateView, RecipientUpdateView, RecipientDeleteView,
@@ -6,7 +7,7 @@ from .views import (
     MailingListView, MailingCreateView, MailingUpdateView, MailingDeleteView
 )
 
-app_name = 'mailing'
+app_name =  MailingConfig.name
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),

@@ -24,9 +24,9 @@
     </div>
 
     <div class="form-group mb-4">
-        <label for="id_scheduled_date"><b>Запланированная дата</b></label>
-        <input type="datetime-local" name="scheduled_date" id="id_scheduled_date" class="form-control"
-               value="{{ form.scheduled_date.value|default:'' }}">
+        <label for="id_end_at"><b>Дата окончания рассылки</b></label>
+        <input type="datetime-local" name="end_at" id="id_end_at" class="form-control"
+               value="{{ form.end_at.value|default:'' }}">
     </div>
 
     <button type="submit" class="btn btn-primary">Сохранить</button>

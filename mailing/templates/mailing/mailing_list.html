@@ -25,10 +25,12 @@
             <td>{{ mailing.message.subject|truncatechars:20 }}</td>
             <td>{{ mailing.status }}</td>
             <td>
+                {% if mailing.status != 'Завершена' %}
                 <form action="{% url 'mailing:send_mailing' mailing.pk %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary">Отправить</button>
                 </form>
+                {% endif %}
                 <a href="{% url 'mailing:mailing_update' mailing.pk %}" class="btn btn-warning">Редактировать</a>
                 <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-danger">Удалить</a>
             </td>
