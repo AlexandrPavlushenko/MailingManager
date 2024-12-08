@@ -5,11 +5,12 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from .models import Recipient, Message, Mailing, SendAttempt
 from .forms import RecipientForm, MessageForm, MailingForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # CRUD для получателей (Recipient)
 
-class RecipientListView(generic.ListView):
+class RecipientListView(LoginRequiredMixin, generic.ListView):
     model = Recipient
     template_name = 'mailing/recipient_list.html'
     context_object_name = 'recipients'
@@ -37,7 +38,7 @@ class RecipientDeleteView(generic.DeleteView):
 
 # CRUD для сообщений (Message)
 
-class MessageListView(generic.ListView):
+class MessageListView(LoginRequiredMixin, generic.ListView):
     model = Message
     template_name = 'mailing/message_list.html'
     context_object_name = 'messages'
@@ -65,7 +66,7 @@ class MessageDeleteView(generic.DeleteView):
 
 # CRUD для рассылок (Mailing)
 
-class MailingListView(generic.ListView):
+class MailingListView(LoginRequiredMixin, generic.ListView):
     model = Mailing
     template_name = 'mailing/mailing_list.html'
     context_object_name = 'mailings'
