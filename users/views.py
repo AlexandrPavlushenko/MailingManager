@@ -11,7 +11,7 @@ from users.models import User
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegistrationForm
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('login')
     template_name = 'users/register_form.html'
 
 class CustomLoginView(LoginView):
@@ -23,9 +23,9 @@ class CustomLoginView(LoginView):
         # Проверка, является ли пользователь заблокированным
         if user.is_blocked:
             messages.error(self.request, "Вы заблокированы администрацией сайта.")
-            return redirect(reverse('users:login'))  # Назад на страницу входа
+            return redirect(reverse('login'))
 
-        return super().form_valid(form)  # Если не заблокирован, выполняем стандартный процесс входа
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('mailing:home')
@@ -37,6 +37,6 @@ class UserProfileUpdateView(UpdateView):
     success_url = reverse_lazy('mailing:home')
 
     def get_object(self, queryset=None):
-        return self.request.user  # Возвращаем текущего пользователя
+        return self.request.user
 
 

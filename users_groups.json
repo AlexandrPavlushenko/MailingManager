@@ -1,0 +1,20 @@
+[
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "manager",
+        "permissions": [
+            [
+                "view_mailing",
+                "mailing",
+                "mailing"
+            ],
+            [
+                "view_recipient",
+                "mailing",
+                "recipient"
+            ]
+        ]
+    }
+}
+]
