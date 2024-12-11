@@ -43,6 +43,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                {% if not is_manager %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mailing:recipient_list' %}">Получатели</a>
                 </li>
@@ -52,6 +53,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailing:list_users' %}">Пользователи</a>
+                </li>
+                {% endif %}
+                
             </ul>
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
@@ -70,7 +80,7 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'mailing:home' %}">Профиль</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile_form' %}">Профиль</a></li>
                             <li>
                                 <form action="{% url 'users:logout' %}" method="post" style="display:inline;">
                                     {% csrf_token %}

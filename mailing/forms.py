@@ -19,11 +19,22 @@ class MailingForm(forms.ModelForm):
         fields = ['end_at', 'message', 'recipients']
 
     recipients = forms.ModelMultipleChoiceField(
-        queryset=Recipient.objects.all(),
+        queryset=Recipient.objects.none(),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
 
-    def __init__(self, *args, **kwargs):
+    message = forms.ModelChoiceField(
+        queryset=Message.objects.none(),
+        required=True
+    )
+
+    def __init__(self, user=None, *args, **kwargs):
         super(MailingForm, self).__init__(*args, **kwargs)
-        self.fields['recipients'].queryset = Recipient.objects.all()
+
+        if user is not None and user.groups.filter(name='manager').exists() is False:
+            # Фильтруем получателей по текущему владельцу
+            self.fields['recipients'].queryset = Recipient.objects.filter(owner=user)
+
+            # Фильтруем сообщения по текущему владельцу
+            self.fields['message'].queryset = Message.objects.filter(owner=user)

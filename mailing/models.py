@@ -44,6 +44,9 @@ class Mailing(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     recipients = models.ManyToManyField(Recipient)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    total_sent = models.PositiveIntegerField(default=0)  # Общее количество отправленных писем
+    successful_sends = models.PositiveIntegerField(default=0)  # Количество успешных отправок
+    failed_sends = models.PositiveIntegerField(default=0)  # Количество неуспешных отправок
 
     def __str__(self):
         return f"{self.message.subject} - {self.status}"
@@ -63,6 +66,9 @@ class SendAttempt(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     server_response = models.TextField(blank=True)
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='send_attempts')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE, null=True)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"Attempt: {self.attempt_time} - {self.status}"

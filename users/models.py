@@ -29,6 +29,13 @@ class User(AbstractUser):
         blank=True,
         help_text="Загрузите аватар",
     )
+    country = models.CharField(
+        max_length=100,
+        verbose_name="Country",
+        blank=True,
+        null=True,
+        help_text='Введите свою страну',)
+    is_blocked = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

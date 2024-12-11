@@ -9,6 +9,15 @@
                     <h4>Вход в систему</h4>
                 </div>
                 <div class="card-body">
+                    <!-- Здесь выводим все сообщения -->
+                    {% if messages %}
+                        <div class="mb-3">
+                            {% for message in messages %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
                     <div class="mb-3">
                         <label for="id_username" class="form-label">Эл.почта</label>
                         <input type="text" name="username" id="id_username"
