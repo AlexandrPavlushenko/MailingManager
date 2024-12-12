@@ -45,3 +45,4 @@ python manage.py send_mailing <mailing_id>
 python manage.py csu
 
 ```
+Внимание обязательно! Redis-сервер должен быть запущен
