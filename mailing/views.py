@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render,redirect, get_object_or_404
 from django.views import generic
 from django.urls import reverse_lazy
@@ -164,7 +166,7 @@ class SendMailingView(generic.View):
                 send_mail(
                     mailing.message.subject,
                     mailing.message.body,
-                    'taborr@yandex.ru',
+                    os.getenv("EMAIL_HOST_USER"),
                     [recipient.email],
                     fail_silently=False,
                 )

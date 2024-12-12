@@ -30,8 +30,13 @@
             <input type="file" name="avatar" id="id_avatar" class="form-control" accept="image/*"
                    onchange="previewImage(event)">
             <div class="mt-2">
-                <img id="avatar_preview" src="{{ user.avatar.url|default:'/static/images/default_avatar.png' }}"
-                     alt="Аватар" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                {% if user.avatar %}
+                    <img id="avatar_preview" src="{{ user.avatar.url }}" alt="Аватар" class="img-thumbnail"
+                         style="max-width: 150px; max-height: 150px;">
+                {% else %}
+                    <img id="avatar_preview" src="/static/images/default_avatar.png" alt="Аватар" class="img-thumbnail"
+                         style="max-width: 150px; max-height: 150px;">
+                {% endif %}
             </div>
         </div>
 
