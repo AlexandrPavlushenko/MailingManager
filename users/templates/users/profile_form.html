@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ form.instance.pk|yesno:"Редактирование,Добавить" }} профиля{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">{{ form.instance.pk|yesno:"Редактирование,Добавить" }} профиля</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group mb-4">
+            <label for="id_username"><b>Имя пользователя</b></label>
+            <input type="text" name="username" id="id_username" class="form-control"
+                   value="{{ form.username.value|default:'' }}">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="id_email"><b>Email</b></label>
+            <input type="email" name="email" id="id_email" class="form-control"
+                   value="{{ form.email.value|default:'' }}">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="id_phone"><b>Телефон</b></label>
+            <input type="text" name="phone" id="id_phone" class="form-control"
+                   value="{{ form.phone.value|default:'' }}">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="id_avatar"><b>Аватар</b></label>
+            <input type="file" name="avatar" id="id_avatar" class="form-control" accept="image/*"
+                   onchange="previewImage(event)">
+            <div class="mt-2">
+                {% if user.avatar %}
+                    <img id="avatar_preview" src="{{ user.avatar.url }}" alt="Аватар" class="img-thumbnail"
+                         style="max-width: 150px; max-height: 150px;">
+                {% else %}
+                    <img id="avatar_preview" src="/static/images/default_avatar.png" alt="Аватар" class="img-thumbnail"
+                         style="max-width: 150px; max-height: 150px;">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="id_country"><b>Страна</b></label>
+            <input type="text" name="country" id="id_country" class="form-control"
+                   value="{{ form.country.value|default:'' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'mailing:home' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+
+    <script>
+        function previewImage(event) {
+            const avatarPreview = document.getElementById('avatar_preview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                avatarPreview.src = '/static/images/default_avatar.png';
+            }
+        }
+    </script>
+{% endblock %}
