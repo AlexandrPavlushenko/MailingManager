@@ -20,8 +20,8 @@ from users.models import User
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegistrationForm
-    template_name = 'users/register_form.html'
-    success_url = reverse_lazy('login')
+    template_name = "users/register_form.html"
+    success_url = reverse_lazy("login")
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -43,8 +43,10 @@ class UserCreateView(CreateView):
         current_site = get_current_site(self.request)
         mail_subject = "Активируйте свой аккаунт"
 
-        activation_link = (f"http://{current_site.domain}"
-                           f"{reverse('activate', kwargs={'uidb64': uid, 'token': token})}")
+        activation_link = (
+            f"http://{current_site.domain}"
+            f"{reverse('activate', kwargs={'uidb64': uid, 'token': token})}"
+        )
 
         message = render_to_string(
             "users/activation_email.html",
@@ -65,33 +67,33 @@ class ActivateView(View):
             if default_token_generator.check_token(user, token):
                 user.is_active = True
                 user.save()
-                return render(request, 'users/activation_complete.html')
+                return render(request, "users/activation_complete.html")
             else:
-                return render(request, 'users/activation_invalid.html')
+                return render(request, "users/activation_invalid.html")
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            return render(request, 'users/activation_invalid.html')
+            return render(request, "users/activation_invalid.html")
 
 
 class CustomLoginView(LoginView):
-    template_name = 'users/login.html'
+    template_name = "users/login.html"
 
     def form_valid(self, form):
         user = form.get_user()
 
         if user.is_blocked:
             messages.error(self.request, "Вы заблокированы администрацией сайта.")
-            return redirect(reverse('login'))
+            return redirect(reverse("login"))
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('mailing:home')
+        return reverse("mailing:home")
 
 
 class UserProfileUpdateView(UpdateView):
     model = User
     form_class = UserProfileForm
-    template_name = 'users/profile_form.html'
-    success_url = reverse_lazy('mailing:home')
+    template_name = "users/profile_form.html"
+    success_url = reverse_lazy("mailing:home")
 
     def get_object(self, queryset=None):
         return self.request.user

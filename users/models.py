@@ -4,16 +4,14 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     email = models.EmailField(
-        unique=True,
-        verbose_name="Email",
-        help_text="Введите свой email"
+        unique=True, verbose_name="Email", help_text="Введите свой email"
     )
     username = models.CharField(
         max_length=100,
         verbose_name="Username",
         blank=True,
         null=True,
-        help_text='Введите свое имя',
+        help_text="Введите свое имя",
     )
     phone = models.CharField(
         max_length=20,
@@ -34,7 +32,8 @@ class User(AbstractUser):
         verbose_name="Country",
         blank=True,
         null=True,
-        help_text='Введите свою страну',)
+        help_text="Введите свою страну",
+    )
     is_blocked = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
